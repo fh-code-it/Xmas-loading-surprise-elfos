@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Attaque en cours – Lutins Farceurs</title>
+<style>
+    body {
+        background: #060a06;
+        font-family: "Courier New", monospace;
+        color: #00ff99;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        text-shadow: 0 0 10px #00ff99;
+        margin-bottom: 40px;
+    }
+
+    #progress-container {
+        width: 80%;
+        height: 30px;
+        background: #002d18;
+        border: 2px solid #00ff99;
+        margin: 40px auto;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 0 10px #00ff99 inset;
+    }
+
+    #progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #00ff99, #11ffaa);
+        transition: width 0.5s linear;
+    }
+
+    #status {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    #time-left {
+        text-align: center;
+        margin-top: 8px;
+        font-size: 16px;
+        color: #ff4d88;
+    }
+
+    #log {
+        margin-top: 40px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        border: 2px solid #00ff99;
+        height: 250px;
+        overflow-y: auto;
+        background: rgba(0, 20, 10, 0.5);
+        box-shadow: 0 0 10px #00ff99 inset;
+        white-space: pre-wrap;
+    }
+
+    .scan {
+        opacity: 0.1;
+        pointer-events: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.0) 0px,
+            rgba(0,0,0,0.0) 2px,
+            rgba(0,255,100,0.05) 4px
+        );
+    }
+</style>
+</head>
+
+<body>
+<h1>⚠ Attaque magique des Lutins Farceurs – Progression ⚠</h1>
+
+<div id="progress-container">
+    <div id="progress-bar"></div>
+</div>
+
+<div id="status">Initialisation…</div>
+<div id="time-left"></div>
+
+<div id="log"></div>
+
+<div class="scan"></div>
+
+<script>
+// Durée totale : 15 minutes (en millisecondes)
+const TOTAL_TIME = 900000; // 900k ms = 15 min
+let startTime = Date.now();
+
+const progressBar = document.getElementById("progress-bar");
+const statusText = document.getElementById("status");
+const timeLeftText = document.getElementById("time-left");
+const logBox = document.getElementById("log");
+
+// Messages qui s'afficheront dans le log
+const logMessages = [
+    "Analyse des défenses du traîneau…",
+    "Décryptage des fichiers HoHoHo.bin…",
+    "Injection de poudre magique…",
+    "Sécurisation du tunnel de guimauve…",
+    "Connexion aux serveurs du Pôle Nord…",
+    "Scan des cookies laissés sous le sapin…",
+    "Activation du protocole Lutin_Farceur.v3",
+    "Génération d’une blague explosive…",
+    "Synchronisation des chaussettes…",
+    "Compression des chants de Noël…",
+    "Chargement des surprises secrètes…",
+    "Optimisation des cadeaux numériques…"
+];
+
+// Change le message de statut selon la progression
+function getStatus(percent) {
+    if (percent < 10) return "Initialisation de l’attaque…";
+    if (percent < 25) return "Analyse des défenses magiques…";
+    if (percent < 40) return "Déploiement des lutins farceurs…";
+    if (percent < 60) return "Exécution de la stratégie festive…";
+    if (percent < 80) return "Attaque en cours…";
+    if (percent < 95) return "Finalisation de la farce…";
+    return "Préparation du résultat…";
+}
+
+// Met à jour la progression toutes les secondes
+function updateProgress() {
+    let elapsed = Date.now() - startTime;
+    let percent = Math.min(elapsed / TOTAL_TIME * 100, 100);
+
+    progressBar.style.width = percent + "%";
+    statusText.textContent = getStatus(percent);
+
+    let remaining = TOTAL_TIME - elapsed;
+    if (remaining < 0) remaining = 0;
+
+    let min = Math.floor(remaining / 60000);
+    let sec = Math.floor((remaining % 60000) / 1000);
+
+    timeLeftText.textContent = `Temps restant : ${min}m ${sec}s`;
+
+    // Ajout aléatoire d’un log
+    if (Math.random() < 0.15) {
+        let msg = logMessages[Math.floor(Math.random() * logMessages.length)];
+        logBox.textContent += "→ " + msg + "\n";
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // Continue jusqu'à 100%
+    if (percent < 100) {
+        requestAnimationFrame(updateProgress);
+    } else {
+        statusText.textContent = "🎉 Attaque farceuse terminée !";
+        timeLeftText.textContent = "";
+        logBox.textContent += "\n🎉 Les lutins ont terminé leur opération magique !\n";
+    }
+}
+
+// Lancer
+updateProgress();
+</script>
+
+</body>
+</html>

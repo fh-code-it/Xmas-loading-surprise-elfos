@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Loading – Hacking des Lutins Farceurs</title>
+<style>
+    body {
+        background: #0a0f0a;
+        color: #00ff6a;
+        font-family: "Courier New", monospace;
+        overflow: hidden;
+    }
+
+    .scanlines {
+        pointer-events: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(0,0,0,0) 0px,
+            rgba(0,0,0,0) 2px,
+            rgba(0,0,0,0.15) 4px
+        );
+        z-index: 100;
+    }
+
+    .container {
+        padding: 20px;
+        white-space: pre-wrap;
+        font-size: 16px;
+        line-height: 1.4;
+        color: #00ff6a;
+        animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 4px #00ff6a; }
+        to { text-shadow: 0 0 10px #00ff6a; }
+    }
+
+    #final-message {
+        margin-top: 40px;
+        color: #ff0055;
+        font-size: 20px;
+        text-shadow: 0 0 8px #ff0055;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+<div class="container" id="terminal"></div>
+<div class="scanlines"></div>
+
+<script>
+// Lignes "hacking" des lutins farceurs
+const lines = [
+    "[ElfOS] Initialisation du système des lutins farceurs...",
+    "Connexion au serveur du Père Noël...",
+    "Analyse du stock de cadeaux...",
+    "Décodage des fichiers secrets 🎁...",
+    "Injection de poudre magique...",
+    "Scan des cookies trouvés dans les chaussettes...",
+    "Override du protocole HoHoHo v2.1...",
+    "Compilation du module: Farce_Finale.cpp",
+    "Connexion établie avec le traîneau...",
+    "Téléchargement des blagues de lutins...",
+    "Lancement de l'opération: SURPRISE_2025",
+];
+
+const terminal = document.getElementById("terminal");
+let index = 0;
+
+// Fonction qui tape les lignes
+function typeLine() {
+    if (index < lines.length) {
+        let line = document.createElement("div");
+        let text = lines[index];
+        let i = 0;
+
+        let typer = setInterval(() => {
+            line.textContent = text.substring(0, i);
+            i++;
+            if (i > text.length) {
+                clearInterval(typer);
+                index++;
+                setTimeout(typeLine, 200);
+            }
+        }, 30);
+
+        terminal.appendChild(line);
+
+    } else {
+        // Message final
+        let msg = document.createElement("div");
+        msg.id = "final-message";
+        msg.textContent = "🎄 Les lutins farceurs préparent une surprise…";
+        terminal.appendChild(msg);
+        msg.style.display = "block";
+
+        // Pause puis relance
+        setTimeout(restartLoop, 2500); // ← modifie le temps ici (ms)
+    }
+}
+
+// Fonction de relance complète
+function restartLoop() {
+    terminal.innerHTML = ""; // reset écran
+    index = 0;               // reset compteur
+    typeLine();              // relance
+}
+
+// Lancer l’animation
+typeLine();
+</script>
+
+</body>
+</html>

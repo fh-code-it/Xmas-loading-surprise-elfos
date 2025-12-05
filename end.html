@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>💻 IT a gagné !</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #001a00; /* vert sombre style console */
+        font-family: "Courier New", monospace;
+        color: #00ff00;
+    }
+    #message {
+        position: absolute;
+        top: 20%;
+        width: 100%;
+        text-align: center;
+        font-size: 36px;
+        text-shadow: 0 0 10px #00ff00;
+    }
+    #scoreMessage {
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        text-align: center;
+        font-size: 28px;
+        text-shadow: 0 0 8px #00ff00;
+    }
+    canvas {
+        display: block;
+        margin: 0 auto;
+        background: #001a00;
+    }
+</style>
+</head>
+<body>
+
+<div id="message">💻 IT a gagné ! Les lutins ont été éjectés du système.</div>
+<div id="scoreMessage">Nombre de farces réussies : 0</div>
+<canvas id="gameCanvas" width="800" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const width = canvas.width;
+const height = canvas.height;
+
+// Lutins 🧝‍♂️ qui fuient (optionnel)
+const elfCount = 5;
+const elves = [];
+for(let i=0; i<elfCount; i++){
+    elves.push({
+        x: Math.random() * (width - 30),
+        y: Math.random() * (height - 100),
+        dx: 1 + Math.random()*2,
+        dy: -1 - Math.random()*2,
+        emoji: "🧝‍♂️",
+        size: 30
+    });
+});
+
+// Compteur de farces réussies (>200)
+let farces = 0;
+const maxFarces = 217; // exemple
+function updateFarces(){
+    if(farces < maxFarces){
+        farces++;
+        document.getElementById("scoreMessage").textContent = "Nombre de farces réussies : " + farces;
+    }
+}
+setInterval(updateFarces, 30);
+
+// Dessin
+function draw(){
+    ctx.clearRect(0,0,width,height);
+
+    // Lutins qui fuient vers le haut
+    elves.forEach((elf,i)=>{
+        ctx.font = elf.size + "px Segoe UI Emoji";
+        ctx.fillText(elf.emoji, elf.x, elf.y);
+
+        elf.x += elf.dx;
+        elf.y += elf.dy;
+
+        // Retirer lutins qui sortent de l'écran
+        if(elf.y + elf.size < 0 || elf.x > width) elves.splice(i,1);
+    });
+}
+
+// Loop
+function loop(){
+    draw();
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+</html>
